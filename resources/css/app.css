@@ -1,0 +1,152 @@
+/* ===============================
+   POPUP
+================================ */
+.popup-card {
+    width: 220px;
+    font-family: sans-serif;
+}
+
+.popup-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.popup-card h3 {
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.status.sehat {
+    color: green;
+}
+.status.perhatian {
+    color: orange;
+}
+.status.sakit {
+    color: red;
+}
+
+.popup-btn {
+    margin-top: 8px;
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    padding: 6px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* ===============================
+   SIDEBAR
+================================ */
+.sidebar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 320px;
+    height: 100%;
+    background: white;
+    z-index: 999;
+    padding: 16px;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 18px;
+}
+
+.popup-card {
+    width: 220px;
+    font-family: sans-serif;
+}
+
+.popup-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.popup-card h3 {
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.status.sehat {
+    color: green;
+}
+.status.perhatian {
+    color: orange;
+}
+.status.sakit {
+    color: red;
+}
+
+.popup-btn {
+    margin-top: 8px;
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    padding: 6px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.sidebar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 320px;
+    height: 100%;
+    background: white;
+    z-index: 999;
+    padding: 16px;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 18px;
+}
+
+/* Wajib untuk Leaflet map */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    height: 100vh; /* full viewport height → paling mudah & recommended */
+    width: 100%;
+}
+
+/* Kalau layout kamu punya header/footer, pakai ini saja (lebih aman) */
+#map {
+    height: 600px; /* atau 70vh, 80vh, 500px — sesuaikan kebutuhan */
+    width: 100%;
+}
