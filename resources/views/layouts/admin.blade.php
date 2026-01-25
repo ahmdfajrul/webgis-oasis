@@ -22,7 +22,7 @@
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo">
+        <img src="{{ asset('assets/images/logo.png') }}" alt="Logo">
         <span class="brand-text">Oasis Kretek Park</span>
     </div>
 
