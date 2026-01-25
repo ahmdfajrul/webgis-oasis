@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Tanaman - {{ $tanaman->nama_pohon }}</title>
 
-    <!-- Bootstrap 5 CDN biar tampilan rapi & responsif -->
+    <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome untuk icon -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
@@ -24,6 +24,7 @@
             border-radius: 15px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
             max-height: 600px;
+            width: 100%;
             object-fit: cover;
         }
         .btn-kembali {
@@ -34,10 +35,21 @@
         .penyakit-card {
             border-radius: 12px;
             overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .penyakit-card:hover {
+            transform: translateY(-5px);
         }
         .penyakit-img {
             border-radius: 10px;
             object-fit: cover;
+        }
+        .deskripsi-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
         }
     </style>
 </head>
@@ -48,12 +60,12 @@
         <div class="col-lg-8">
 
             <!-- Header + Tombol Kembali -->
-            <div class="d-flex justify-content-between align-items-start mb-4">
-                <div>
+            <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap">
+                <div class="mb-3 mb-md-0">
                     <h1 class="fw-bold text-success">{{ $tanaman->nama_pohon }}</h1>
                     <p class="fs-5 text-muted fst-italic">{{ $tanaman->nama_latin ?? '-' }}</p>
-                    <p class="fs-5 mb-1"><strong>Kode Pohon:</strong> <span class="text-primary">{{ $tanaman->kode_pohon }}</span></p>
-                    <p class="fs-5 mb-0"><strong>Tahun Tanam:</strong> {{ $tanaman->tahun_tanam }}</p>
+                    <p class="fs-6 mb-1"><strong>Kode Pohon:</strong> <span class="text-primary">{{ $tanaman->kode_pohon }}</span></p>
+                    <p class="fs-6 mb-0"><strong>Tahun Tanam:</strong> {{ $tanaman->tahun_tanam }}</p>
                 </div>
 
                 <a href="/map" class="btn btn-success btn-kembali shadow-sm">
@@ -61,7 +73,7 @@
                 </a>
             </div>
 
-            <!-- Foto Utama (Portrait) -->
+            <!-- Foto Utama -->
             <div class="text-center mb-5">
                 @if($tanaman->foto_pohon)
                     <img src="/images/{{ $tanaman->foto_pohon }}" 
@@ -73,6 +85,14 @@
                         <p class="text-muted fs-4">Foto belum tersedia</p>
                     </div>
                 @endif
+            </div>
+
+            <!-- Deskripsi -->
+            <div class="deskripsi-section">
+                <h3 class="fw-bold text-success mb-3">Deskripsi Tanaman</h3>
+                <p class="text-gray-700 text-justify">
+                    {{ $tanaman->deskripsi ?? 'Belum ada deskripsi tanaman.' }}
+                </p>
             </div>
 
             <!-- Riwayat Penyakit -->
@@ -98,8 +118,6 @@
                                             <i class="fa fa-image fa-3x text-muted"></i>
                                         </div>
                                     @endif
-
-                                
                                 </div>
                             </div>
                         </div>
@@ -117,7 +135,7 @@
     </div>
 </div>
 
-<!-- Bootstrap JS (optional, untuk responsif) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

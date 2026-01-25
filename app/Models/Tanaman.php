@@ -16,6 +16,7 @@ class Tanaman extends Model
         'nama_pohon',
         'nama_latin',
         'tahun_tanam',
+        'deskripsi',
         'status',
         'latitude',
         'longitude',

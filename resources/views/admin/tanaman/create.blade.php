@@ -75,6 +75,15 @@
         <input type="number" name="tahun_tanam" class="form-control" required>
     </div>
 
+    <div class="col-md-12">
+    <label class="form-label">Deskripsi Tanaman</label>
+    <textarea name="deskripsi"
+              class="form-control"
+              rows="4"
+              placeholder="Tuliskan deskripsi tanaman...">{{ old('deskripsi', $tanaman->deskripsi ?? '') }}</textarea>
+</div>
+
+
     <div class="col-md-4">
         <label class="form-label">Status *</label>
         <select name="status" class="form-select" required>
