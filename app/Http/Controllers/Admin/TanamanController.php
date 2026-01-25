@@ -5,20 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Tanaman;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class TanamanController extends Controller
 {
     // Menampilkan semua tanaman
     public function index()
-    {
-        $tanaman = Tanaman::select('id','kode_pohon','nama_pohon','status','latitude','longitude','foto_pohon')
-            ->with('penyakit:id,tanaman_id,nama_penyakit,foto_penyakit')
-            ->orderByRaw("SUBSTRING(kode_pohon,1,1), CAST(SUBSTRING(kode_pohon,2) AS UNSIGNED) ASC")
-            ->paginate(20); // 20 data per halaman
+{
+    // Ambil hanya field penting, eager load penyakit terbatas
+    $tanaman = Tanaman::select('id','kode_pohon','nama_pohon','status','latitude','longitude','foto_pohon')
+        ->with('penyakit:id,tanaman_id,nama_penyakit,foto_penyakit')
+        ->orderByRaw("SUBSTRING(kode_pohon,1,1), CAST(SUBSTRING(kode_pohon,2) AS UNSIGNED) ASC")
+        ->paginate(20); // 20 data per halaman
 
-        return view('admin.tanaman.index', compact('tanaman'));
-    }
+    return view('admin.tanaman.index', compact('tanaman'));
+}
+
 
     // Form tambah tanaman
     public function create()
@@ -29,8 +30,9 @@ class TanamanController extends Controller
     // Simpan data tanaman baru
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
-            'kode_pohon'   => ['required','string','max:50','unique:tanaman,kode_pohon'],
+            'kode_pohon'   => ['required', 'string', 'max:50', 'unique:tanaman,kode_pohon'],
             'nama_pohon'   => 'required|string|max:255',
             'nama_latin'   => 'nullable|string|max:255',
             'deskripsi'    => 'nullable|string',
@@ -38,27 +40,31 @@ class TanamanController extends Controller
             'status'       => 'nullable|in:sehat,perhatian,sakit',
             'latitude'     => 'required|numeric',
             'longitude'    => 'required|numeric',
-            'foto_pohon'   => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'foto_pohon'   => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // max 5MB
         ], [
             'kode_pohon.unique' => 'Kode pohon sudah digunakan.'
         ]);
 
+        // Ambil semua data valid dari request
         $data = $request->only([
-            'kode_pohon','nama_pohon','nama_latin','deskripsi',
-            'tahun_tanam','status','latitude','longitude'
+            'kode_pohon', 'nama_pohon', 'nama_latin', 
+            'deskripsi', 'tahun_tanam', 'status', 
+            'latitude', 'longitude'
         ]);
 
+        // Upload foto
         if ($request->hasFile('foto_pohon')) {
             $file = $request->file('foto_pohon');
-            $namaFile = time().'_'.$file->getClientOriginalName();
+            $namaFile = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('images/tanaman'), $namaFile);
-            $data['foto_pohon'] = 'tanaman/'.$namaFile;
+            $data['foto_pohon'] = 'tanaman/' . $namaFile;
         }
 
+        // Simpan ke database
         Tanaman::create($data);
 
         return redirect()->route('admin.tanaman.index')
-                         ->with('success','Data tanaman berhasil ditambahkan.');
+                         ->with('success', 'Data tanaman berhasil ditambahkan.');
     }
 
     // Form edit tanaman
@@ -74,7 +80,7 @@ class TanamanController extends Controller
         $tanaman = Tanaman::findOrFail($id);
 
         $validated = $request->validate([
-            'kode_pohon'   => ['sometimes','required','string','max:50',
+            'kode_pohon'   => ['sometimes','required','string','max:50', 
                                'unique:tanaman,kode_pohon,'.$id],
             'nama_pohon'   => 'sometimes|required|string|max:255',
             'nama_latin'   => 'nullable|string|max:255',
@@ -88,22 +94,25 @@ class TanamanController extends Controller
             'kode_pohon.unique' => 'Kode pohon sudah digunakan.'
         ]);
 
+        // Upload foto baru jika ada
         if ($request->hasFile('foto_pohon')) {
             if ($tanaman->foto_pohon) {
-                $oldPath = public_path('images/'.$tanaman->foto_pohon);
-                if (file_exists($oldPath)) @unlink($oldPath);
+                $oldPath = public_path('images/' . $tanaman->foto_pohon);
+                if (file_exists($oldPath)) {
+                    @unlink($oldPath);
+                }
             }
 
             $file = $request->file('foto_pohon');
-            $namaFile = time().'_'.$file->getClientOriginalName();
+            $namaFile = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('images/tanaman'), $namaFile);
-            $validated['foto_pohon'] = 'tanaman/'.$namaFile;
+            $validated['foto_pohon'] = 'tanaman/' . $namaFile;
         }
 
         $tanaman->update($validated);
 
         return redirect()->route('admin.tanaman.index')
-                         ->with('success','Data tanaman berhasil diperbarui.');
+                         ->with('success', 'Data tanaman berhasil diperbarui.');
     }
 
     // Hapus tanaman
@@ -112,21 +121,25 @@ class TanamanController extends Controller
         $tanaman = Tanaman::findOrFail($id);
 
         if ($tanaman->foto_pohon) {
-            $path = public_path('images/'.$tanaman->foto_pohon);
-            if (file_exists($path)) @unlink($path);
+            $path = public_path('images/' . $tanaman->foto_pohon);
+            if (file_exists($path)) {
+                @unlink($path);
+            }
         }
 
         $tanaman->delete();
 
         return redirect()->route('admin.tanaman.index')
-                         ->with('success','Data tanaman berhasil dihapus.');
+                         ->with('success', 'Data tanaman berhasil dihapus.');
     }
 
-    // Cek kode pohon untuk validasi AJAX
+    // Cek apakah kode pohon sudah ada (untuk validasi AJAX)
     public function cekKode(Request $request)
     {
-        $exists = Tanaman::where('kode_pohon',$request->kode)->exists();
+        $exists = Tanaman::where('kode_pohon', $request->kode)->exists();
 
-        return response()->json(['exists' => $exists]);
+        return response()->json([
+            'exists' => $exists
+        ]);
     }
 }
