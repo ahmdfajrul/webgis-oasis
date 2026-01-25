@@ -20,10 +20,14 @@ class LandingController extends Controller
         // Total jenis penyakit
         $jumlahPenyakit = Penyakit::count();
 
+        $jumlahjenispenyakit = Penyakit::distinct('nama_penyakit')
+    ->count('nama_penyakit');
+
         return view('frontend.landing', compact(
             'jumlahTanaman',
             'jumlahJenis',
-            'jumlahPenyakit'
+            'jumlahPenyakit',
+            'jumlahjenispenyakit'
         ));
     }
 }

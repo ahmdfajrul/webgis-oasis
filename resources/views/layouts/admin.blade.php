@@ -2,70 +2,101 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title','Admin') — WebGIS Oasis</title>
+    <title>@yield('title', 'Admin Dashboard')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <style>
-        body { background:#f4f6f9; }
-        .sidebar {
-            width:260px;
-            min-height:100vh;
-            background: linear-gradient(180deg,#065f46,#064e3b);
-        }
-        .sidebar a {
-            color:#e5f7ef;
-            padding:12px 20px;
-            display:block;
-            text-decoration:none;
-        }
-        .sidebar a:hover,
-        .sidebar a.active {
-            background: rgba(255,255,255,.15);
-        }
-    </style>
+    <!-- ADMIN CSS -->
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
+
 </head>
-
 <body>
-<div class="d-flex">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <h4 class="text-center text-white py-3">🌿 OASIS GIS</h4>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo">
+        <span class="brand-text">Oasis Kretek Park</span>
+    </div>
 
-        <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard')?'active':'' }}">
-            <i class="fa fa-home me-2"></i> Dashboard
-        </a>
+    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+        <i class="bi bi-house"></i>
+        <span class="menu-text">Dashboard</span>
+    </a>
 
-        <a href="{{ route('admin.tanaman.index') }}">
-            <i class="fa fa-tree me-2"></i> Data Tanaman
-        </a>
+    <a href="{{ route('admin.tanaman.index') }}" class="{{ request()->routeIs('admin.tanaman.*') ? 'active' : '' }}">
+        <i class="bi bi-tree"></i>
+        <span class="menu-text">Data Tanaman</span>
+    </a>
 
-        <a href="{{ route('admin.penyakit.index') }}">
-            <i class="fa fa-bug me-2"></i> Data Penyakit
-        </a>
+    <a href="{{ route('admin.penyakit.index') }}" class="{{ request()->routeIs('admin.penyakit.*') ? 'active' : '' }}">
+        <i class="bi bi-bug"></i>
+        <span class="menu-text">Data Penyakit</span>
+    </a>
 
-        <a href="{{ route('logout') }}"
-           onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-            <i class="fa fa-sign-out-alt me-2"></i> Logout
-        </a>
+    <a href="{{ route('logout') }}"
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="menu-text">Logout</span>
+    </a>
 
-        <form id="logout-form" action="{{ route('logout') }}" method="POST">@csrf</form>
-    </aside>
-
-    <!-- CONTENT -->
-    <main class="flex-fill p-4">
-        @yield('content')
-    </main>
-
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-@yield('scripts')
+<!-- CONTENT -->
+<div class="content" id="content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="d-flex align-items-center gap-3">
+            <!-- HAMBURGER BUTTON -->
+            <button class="btn btn-hamburger" id="toggleSidebar">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <h1 class="page-title mb-0">
+                @yield('page-title')
+            </h1>
+        </div>
+
+        <div class="topbar-action">
+            @yield('header-action')
+        </div>
+    </div>
+
+    @yield('content')
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- jQuery (WAJIB PERTAMA) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- SIDEBAR TOGGLE -->
+<script>
+document.getElementById('toggleSidebar').addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    document.getElementById('content').classList.toggle('expanded');
+});
+</script>
+
+@stack('scripts')
 </body>
 </html>
+

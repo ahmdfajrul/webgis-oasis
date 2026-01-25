@@ -1,0 +1,267 @@
+/* ===============================
+   ROOT COLOR (PREMIUM GREEN)
+================================ */
+:root {
+    --oasis-green: #15803d; /* bootstrap success (tombol home) */
+    --green-dark: #146c43;
+    --green-soft: #e9f7ef;
+    --bg-main: #f4f6f9;
+    --text-dark: #1f2937;
+}
+
+/* ===============================
+   GLOBAL
+================================ */
+body {
+    background: var(--bg-main);
+    font-family:
+        "Inter",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+    color: var(--text-dark);
+}
+
+/* ===============================
+   SIDEBAR
+================================ */
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #15803d, #157347);
+    padding: 24px 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar-brand {
+    display: flex;
+    flex-direction: column; /* logo di atas */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.sidebar-brand img {
+    width: 50px;
+}
+
+.sidebar-brand span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    margin: 4px 12px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.sidebar a i {
+    font-size: 18px;
+}
+
+.sidebar a:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateX(4px);
+}
+
+.sidebar a.active {
+    background: #fff;
+    color: var(--green-main);
+    font-weight: 600;
+}
+
+/* ===============================
+   CONTENT
+================================ */
+.content {
+    margin-left: 260px;
+    padding: 30px;
+    transition: all 0.35s ease;
+}
+
+/* ===============================
+   TOP BAR
+================================ */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.topbar h1 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* ===== BUTTON HOME ===== */
+.btn-home {
+    background-color: var(--oasis-green);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.btn-home:hover {
+    background-color: #fff;
+    color: var(--green-main);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(22, 163, 74, 0.25);
+}
+
+.btn-home:active {
+    background-color: var(---green-dark);
+    transform: scale(0.98);
+}
+
+/* ===============================
+   CARD STAT
+================================ */
+.stat-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.35s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.stat-title {
+    font-size: 15px;
+    color: #6b7280;
+}
+
+.stat-value {
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--green-main);
+}
+
+/* ===============================
+   STATUS BADGE
+================================ */
+.badge-status {
+    background: var(--green-soft);
+    color: var(--green-main);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+/* ===== SIDEBAR COLLAPSE ===== */
+.sidebar {
+    width: 260px;
+    transition: all 0.3s ease;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed .brand-text,
+.sidebar.collapsed .menu-text {
+    display: none;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar i {
+    font-size: 1.2rem;
+}
+
+/* ===== CONTENT SHIFT ===== */
+.content {
+    margin-left: 260px;
+    transition: all 0.3s ease;
+}
+
+.content.expanded {
+    margin-left: 80px;
+}
+
+/* ===== HAMBURGER BUTTON ===== */
+.btn-hamburger {
+    background: #198754;
+    color: white;
+    border-radius: 10px;
+    padding: 6px 10px;
+}
+
+.btn-hamburger:hover {
+    background: #157347;
+    color: white;
+}
+
+/* ===============================
+   DATATABLES SORT FIX (FINAL)
+================================ */
+
+/* SEMUA HEADER */
+table.dataTable thead th {
+    cursor: default !important;
+}
+
+/* SEMUA SORT ICON MATI */
+table.dataTable thead th::before,
+table.dataTable thead th::after {
+    display: none !important;
+}
+
+/* NONAKTIFKAN KLIK DI SEMUA KOLOM */
+table.dataTable thead th span.dt-column-order {
+    pointer-events: none;
+}
+
+/* ===============================
+   HANYA KOLOM NO (kolom 1)
+================================ */
+
+/* AKTIFKAN KLIK */
+table.dataTable thead th:nth-child(1) span.dt-column-order {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* TAMPILKAN ICON SORT */
+table.dataTable thead th:nth-child(1)::before,
+table.dataTable thead th:nth-child(1)::after {
+    display: inline-block !important;
+}

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tanaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 class TanamanController extends Controller
 {
@@ -21,18 +22,17 @@ class TanamanController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'kode_pohon'   => 'required|unique:tanaman,kode_pohon',
-            'nama_pohon'   => 'required',
-            'nama_latin'   => 'nullable',
-            'tahun_tanam'  => 'required|digits:4|integer',
-            'status'       => 'required|in:sehat,perhatian,sakit',
-            'latitude'     => 'required|numeric',
-            'longitude'    => 'required|numeric',
-            'foto_pohon'   => 'required|image'
-        ]);
-
+{
+    $request->validate([
+        'kode_pohon' => ['required', 'string', 'max:50', 'unique:tanaman,kode_pohon'],
+        'nama_pohon' => 'required',
+        'tahun_tanam' => 'required|numeric',
+        'latitude' => 'required',
+        'longitude' => 'required',
+        'foto_pohon' => 'required|image'
+    ], [
+        'kode_pohon.unique' => 'Kode pohon sudah digunakan.'
+    ]);
         $file = $request->file('foto_pohon');
         $namaFile = time().'_'.$file->getClientOriginalName();
         $file->move(public_path('images/tanaman'), $namaFile);
@@ -101,4 +101,14 @@ class TanamanController extends Controller
 
         return redirect()->route('admin.tanaman.index');
     }
+
+    public function cekKode(Request $request)
+{
+    $exists = Tanaman::where('kode_pohon', $request->kode)->exists();
+
+    return response()->json([
+        'exists' => $exists
+    ]);
+}
+
 }

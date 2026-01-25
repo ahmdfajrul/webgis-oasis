@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oasis Djarum Kudus | Sistem Informasi Geospasial Tanaman</title>
 
     <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- AOS -->
@@ -17,35 +15,53 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            padding-top:80px;
-        }
-        .hero-image {
-            border-radius:1rem;
-            box-shadow:0 30px 60px -15px rgba(0,0,0,.25);
-        }
+        body { font-family: 'Poppins', sans-serif; }
+
+        /* Card Interactive */
         .card {
-            border:1px solid #e5e7eb;
-            transition:.3s;
+            transition: all .35s ease;
+            background: #fff;
         }
         .card:hover {
-            transform:translateY(-5px);
-            border-color:#2e7d32;
-            box-shadow:0 25px 40px -15px rgba(0,0,0,.15);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+            border-color: #2e7d32;
         }
+
+        /* Statistik hover */
+        .stat-box {
+            transition: all .35s ease;
+        }
+        .stat-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(34,197,94,.25);
+            background: linear-gradient(135deg,#e8f5e9,#ffffff);
+        }
+
+    .text-justify-fix {
+        text-align: justify;
+        text-justify: inter-word;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+    }
+
     </style>
 </head>
-<body>
+
+<body class="bg-white">
 
 <!-- HEADER -->
-<header class="fixed top-0 w-full bg-white border-b z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+<header class="fixed top-0 w-full bg-white/90 backdrop-blur border-b z-50">
+    <div class="max-w-7xl mx-auto px-6 h-16 md:h-20 flex justify-between items-center">
+
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-green-700 rounded-full flex items-center justify-center text-white font-bold">
-                DF
-            </div>
-            <span class="font-semibold text-lg">Djarum Foundation Park</span>
+            <img src="{{ asset('assets/logo-oasis.png') }}"
+                 class="w-10 h-10 object-contain"
+                 alt="Oasis Kretek Factory Park">
+            <span class="font-semibold text-lg">
+                Oasis Kretek Park
+            </span>
         </div>
 
         <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
@@ -58,81 +74,83 @@
     </div>
 </header>
 
+<div class="h-16 md:h-20"></div>
+
 <!-- HERO -->
-<section class="min-h-[85vh] flex items-center bg-gray-50">
+<section class="bg-gradient-to-br from-green-50 to-white py-12 md:py-28">
     <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
 
         <div data-aos="fade-right">
             <p class="uppercase tracking-widest text-sm text-green-700 font-medium">
-                Sistem Informasi Geospasial
+                Digital Green Mapping
             </p>
 
-            <h1 class="text-4xl font-bold mt-6 leading-tight">
-                Pemetaan Tanaman<br>
-                <span class="text-green-700"> Djarum Foundation Park</span>
+            <h1 class="text-4xl md:text-4xl font-bold mt-4 leading-tight">
+                Setiap Pohon Punya Cerita
+                <span class="block text-green-700">
+                    Oasis Kretek Park
+                </span>
             </h1>
 
-            <p class="mt-8 text-lg text-gray-600 max-w-xl leading-relaxed">
-                Platform berbasis Web GIS yang dikembangkan untuk mendukung
-                pendataan, pemantauan, dan pengelolaan tanaman secara terintegrasi,
-                akurat, dan berkelanjutan.
-            </p>
+            <p class="mt-6 text-lg text-gray-600 leading-relaxed max-w-xl text-justify-fix">
+    Di balik rimbunnya Oasis Kretek Park, 
+    terdapat data yang terus hidup. Gunakan peta ini untuk menjelajahi profil tanaman, 
+    mengikuti perkembangan pertumbuhannya, dan memahami peran pentingnya bagi keseimbangan alam kita.
+</p>
 
-            <div class="mt-10 flex gap-4">
+
+
+            <div class="mt-10 flex flex-wrap gap-4">
                 <a href="{{ route('map') }}"
-                   class="bg-green-700 text-white px-8 py-4 rounded-full hover:bg-green-800 transition">
-                    Peta Interaktif
+                   class="bg-green-700 text-white px-8 py-3 rounded-full hover:bg-green-800 transition">
+                    Buka Peta Interaktif
                 </a>
 
                 <a href="#statistik"
-                   class="px-8 py-4 rounded-full border border-green-700 text-green-700 hover:bg-green-50 transition">
-                    Ringkasan Data
+                   class="border border-green-700 text-green-700 px-8 py-3 rounded-full hover:bg-green-50 transition">
+                    Lihat Ringkasan Data
                 </a>
             </div>
         </div>
 
         <div data-aos="fade-left" class="hidden md:block">
-            <img 
-                src="https://images.pexels.com/photos/10479377/pexels-photo-10479377.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                class="hero-image w-full"
-                alt="Kawasan hijau Oasis Djarum">
+            <img src="{{ asset('assets/hero-oasis.jpg') }}"
+                 class="rounded-3xl shadow-2xl"
+                 alt="Oasis Kretek Factory Park">
         </div>
-
     </div>
 </section>
 
 <!-- FITUR -->
-<section class="py-24 bg-gray-50">
+<section id="fitur" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-6">
+
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold">
-                Fitur Utama Sistem
-            </h2>
+            <h2 class="text-4xl font-bold">Fitur Utama Sistem</h2>
             <p class="mt-4 text-gray-600 max-w-3xl mx-auto">
-                Sistem ini dikembangkan sebagai alat pendukung pengelolaan kawasan hijau
-                berbasis data spasial dan informasi tanaman.
+                Fitur utama untuk pengelolaan kawasan hijau berbasis data spasial.
             </p>
         </div>
 
         <div class="grid md:grid-cols-3 gap-10">
-            <div class="card p-8 rounded-2xl" data-aos="fade-up">
-                <h3 class="text-xl font-semibold mb-4">Data Spasial Tanaman</h3>
+            <div class="card p-8 rounded-3xl border" data-aos="zoom-in">
+                <h3 class="text-xl font-semibold mb-3">Data Spasial Tanaman</h3>
                 <p class="text-gray-600">
-                    Setiap tanaman direpresentasikan dalam peta digital berbasis koordinat geografis.
+                    Visualisasi lokasi tanaman berbasis peta digital interaktif.
                 </p>
             </div>
 
-            <div class="card p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="150">
-                <h3 class="text-xl font-semibold mb-4">Informasi Detail Tanaman</h3>
+            <div class="card p-8 rounded-3xl border" data-aos="zoom-in" data-aos-delay="150">
+                <h3 class="text-xl font-semibold mb-3">Detail Informasi</h3>
                 <p class="text-gray-600">
-                    Menyediakan data jenis tanaman, nama ilmiah, tahun tanam, dan dokumentasi visual.
+                    Informasi jenis, kondisi, dokumentasi, dan riwayat tanaman.
                 </p>
             </div>
 
-            <div class="card p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="300">
-                <h3 class="text-xl font-semibold mb-4">Monitoring & Evaluasi</h3>
+            <div class="card p-8 rounded-3xl border" data-aos="zoom-in" data-aos-delay="300">
+                <h3 class="text-xl font-semibold mb-3">Monitoring Berkelanjutan</h3>
                 <p class="text-gray-600">
-                    Mendukung pencatatan kondisi dan riwayat perawatan tanaman secara berkala.
+                    Mendukung evaluasi dan perawatan tanaman secara periodik.
                 </p>
             </div>
         </div>
@@ -140,102 +158,55 @@
 </section>
 
 <!-- STATISTIK -->
-<section id="statistik" class="py-28 bg-gradient-to-b from-gray-50 to-white">
+<section id="statistik" class="py-24 bg-gray-50">
     <div class="max-w-7xl mx-auto px-6">
 
-        <!-- Judul -->
-        <div class="text-center mb-20">
+        <div class="text-center mb-16">
             <h2 class="text-4xl font-bold">
                 Ringkasan <span class="text-green-700">Data Tanaman</span>
             </h2>
-            <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
-                Informasi statistik berdasarkan data aktual yang tersimpan
-                pada sistem pemetaan Oasis Djarum Kudus.
-            </p>
         </div>
 
-        <!-- Card Statistik -->
-        <div class="grid md:grid-cols-4 gap-10">
-
-            <!-- Total Pohon -->
-            <div class="relative bg-white rounded-3xl p-10 border hover:shadow-2xl transition">
-                <div class="absolute top-6 right-6 text-green-100 text-6xl"></div>
-                <p class="text-sm uppercase tracking-wider text-gray-500">
-                    Total Pohon
-                </p>
-                <p class="text-5xl font-bold text-green-700 mt-4">
-                    {{ $jumlahTanaman }}
-                </p>
-                <p class="mt-2 text-gray-600">
-                    Pohon terdata
-                </p>
+        <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10">
+            <div class="stat-box bg-white p-8 rounded-3xl border text-center">
+                <p class="text-gray-500">Total Pohon</p>
+                <p class="text-5xl font-bold text-green-700 mt-2">{{ $jumlahTanaman }}</p>
             </div>
 
-            <!-- Jenis Tanaman -->
-            <div class="relative bg-white rounded-3xl p-10 border hover:shadow-2xl transition">
-                <div class="absolute top-6 right-6 text-green-100 text-6xl"></div>
-                <p class="text-sm uppercase tracking-wider text-gray-500">
-                    Jenis Tanaman
-                </p>
-                <p class="text-5xl font-bold text-green-700 mt-4">
-                    {{ $jumlahJenis }}
-                </p>
-                <p class="mt-2 text-gray-600">
-                    Klasifikasi tanaman
-                </p>
+            <div class="stat-box bg-white p-8 rounded-3xl border text-center">
+                <p class="text-gray-500">Jenis Tanaman</p>
+                <p class="text-5xl font-bold text-green-700 mt-2">{{ $jumlahJenis }}</p>
             </div>
 
-            <!-- Penyakit -->
-            <div class="relative bg-white rounded-3xl p-10 border hover:shadow-2xl transition">
-                <div class="absolute top-6 right-6 text-green-100 text-6xl"></div>
-                <p class="text-sm uppercase tracking-wider text-gray-500">
-                    Penyakit
-                </p>
-                <p class="text-5xl font-bold text-green-700 mt-4">
-                    {{ $jumlahPenyakit }}
-                </p>
-                <p class="mt-2 text-gray-600">
-                    Kategori penyakit
-                </p>
+            <div class="stat-box bg-white p-8 rounded-3xl border text-center">
+                <p class="text-gray-500">Penyakit</p>
+                <p class="text-5xl font-bold text-green-700 mt-2">{{ $jumlahPenyakit }}</p>
             </div>
 
-            <!-- GIS -->
-            <div class="relative bg-gradient-to-br from-green-700 to-green-600 rounded-3xl p-10 text-white shadow-xl">
-                <div class="absolute top-6 right-6 text-green-200 text-6xl"></div>
-                <p class="text-sm uppercase tracking-wider text-green-100">
-                    Sistem
-                </p>
-                <p class="text-5xl font-bold mt-4">
-                    GIS
-                </p>
-                <p class="mt-2 text-green-100">
-                    Peta Interaktif
-                </p>
+            <div class="stat-box bg-white p-8 rounded-3xl border text-center">
+                <p class="text-gray-500">Jenis Penyakit</p>
+                <p class="text-5xl font-bold text-green-700 mt-2">{{ $jumlahjenispenyakit }}</p>
             </div>
-
         </div>
     </div>
 </section>
 
-
 <!-- FOOTER -->
-<footer class="bg-gray-900 text-gray-300 py-14">
+<footer class="bg-white border-t py-6">
     <div class="max-w-7xl mx-auto px-6 text-center">
-        <p class="font-semibold text-white mb-2">
-            Sistem Informasi Geospasial Tanaman Oasis Djarum Kudus
-        </p>
-        <p class="text-sm mb-4">
-            Dikembangkan untuk mendukung pengelolaan lingkungan berbasis data
-        </p>
-        <p class="text-xs text-gray-400">
-            © {{ date('Y') }} Oasis Djarum Kudus
+        <p class="text-xs text-gray-500 tracking-wide">
+            © {{ date('Y') }} 
+            <span class="font-medium text-gray-700">
+                Oasis Djarum Kudus
+            </span> · Sistem Informasi Geospasial Tanaman
         </p>
     </div>
 </footer>
 
+
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-    AOS.init({ once:true, duration:800 });
+    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
 </script>
 
 </body>
