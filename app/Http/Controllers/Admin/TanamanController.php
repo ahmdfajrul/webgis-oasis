@@ -10,10 +10,12 @@ class TanamanController extends Controller
 {
     // Menampilkan semua tanaman
     public function index()
-    {
-        $tanaman = Tanaman::all();
-        return view('admin.tanaman.index', compact('tanaman'));
-    }
+{
+    // Urut natural berdasarkan kode_pohon
+    $tanaman = Tanaman::orderByRaw("SUBSTRING(kode_pohon, 1, 1), CAST(SUBSTRING(kode_pohon, 2) AS UNSIGNED) ASC")->get();
+
+    return view('admin.tanaman.index', compact('tanaman'));
+}
 
     // Form tambah tanaman
     public function create()

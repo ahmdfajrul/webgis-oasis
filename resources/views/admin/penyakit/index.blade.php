@@ -25,6 +25,7 @@
             <thead class="table-light">
                 <tr>
                     <th>No</th>
+                    <th>Kode Pohon</th>
                     <th>Nama Pohon</th>
                     <th>Nama Penyakit</th>
                     <th class="text-center">Foto</th>
@@ -36,14 +37,13 @@
             @foreach($penyakit as $i => $p)
                 <tr>
                     <td>{{ $i + 1 }}</td>
+                    
+                    <!-- Kode Pohon -->
+                    <td class="fw-semibold text-muted">{{ $p->tanaman->kode_pohon ?? '-' }}</td>
 
-                    <td class="fw-semibold">
-                        {{ $p->tanaman->nama_pohon }}
-                    </td>
+                    <td class="fw-semibold">{{ $p->tanaman->nama_pohon ?? '-' }}</td>
 
-                    <td class="text-muted fw-semibold">
-                        {{ $p->nama_penyakit }}
-                    </td>
+                    <td class="text-muted fw-semibold">{{ $p->nama_penyakit }}</td>
 
                     <td class="text-center">
                         @if($p->foto_penyakit)
@@ -58,9 +58,7 @@
                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">
-                                                {{ $p->nama_penyakit }}
-                                            </h5>
+                                            <h5 class="modal-title">{{ $p->nama_penyakit }}</h5>
                                             <button class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body text-center bg-light">
@@ -117,7 +115,8 @@ $(document).ready(function () {
                 previous: "‹",
                 next: "›"
             }
-        }
+        },
+        order: [[1, 'asc']] // urut default berdasarkan kolom Kode Pohon
     });
 });
 </script>

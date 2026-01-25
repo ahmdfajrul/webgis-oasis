@@ -11,10 +11,17 @@ use Illuminate\Support\Facades\File;
 class PenyakitController extends Controller
 {
     public function index()
-    {
-        $penyakit = Penyakit::with('tanaman')->get();
-        return view('admin.penyakit.index', compact('penyakit'));
-    }
+{
+    // Ambil penyakit + relasi tanaman
+    // Urut natural berdasarkan kode_pohon tanaman (huruf + angka)
+    $penyakit = Penyakit::with('tanaman')
+        ->join('tanaman', 'penyakit.tanaman_id', '=', 'tanaman.id')
+        ->orderByRaw("SUBSTRING(tanaman.kode_pohon, 1, 1), CAST(SUBSTRING(tanaman.kode_pohon, 2) AS UNSIGNED) ASC")
+        ->select('penyakit.*') // ambil field penyakit saja
+        ->get();
+
+    return view('admin.penyakit.index', compact('penyakit'));
+}
 
     public function create()
     {
