@@ -11,11 +11,15 @@ class TanamanController extends Controller
     // Menampilkan semua tanaman
     public function index()
 {
-    // Urut natural berdasarkan kode_pohon
-    $tanaman = Tanaman::orderByRaw("SUBSTRING(kode_pohon, 1, 1), CAST(SUBSTRING(kode_pohon, 2) AS UNSIGNED) ASC")->get();
+    // Ambil hanya field penting, eager load penyakit terbatas
+    $tanaman = Tanaman::select('id','kode_pohon','nama_pohon','status','latitude','longitude','foto_pohon')
+        ->with('penyakit:id,tanaman_id,nama_penyakit,foto_penyakit')
+        ->orderByRaw("SUBSTRING(kode_pohon,1,1), CAST(SUBSTRING(kode_pohon,2) AS UNSIGNED) ASC")
+        ->paginate(20); // 20 data per halaman
 
     return view('admin.tanaman.index', compact('tanaman'));
 }
+
 
     // Form tambah tanaman
     public function create()

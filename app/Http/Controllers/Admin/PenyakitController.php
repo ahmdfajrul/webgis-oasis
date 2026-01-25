@@ -12,16 +12,15 @@ class PenyakitController extends Controller
 {
     public function index()
 {
-    // Ambil penyakit + relasi tanaman
-    // Urut natural berdasarkan kode_pohon tanaman (huruf + angka)
     $penyakit = Penyakit::with('tanaman')
         ->join('tanaman', 'penyakit.tanaman_id', '=', 'tanaman.id')
-        ->orderByRaw("SUBSTRING(tanaman.kode_pohon, 1, 1), CAST(SUBSTRING(tanaman.kode_pohon, 2) AS UNSIGNED) ASC")
-        ->select('penyakit.*') // ambil field penyakit saja
-        ->get();
+        ->orderByRaw("SUBSTRING(tanaman.kode_pohon,1,1), CAST(SUBSTRING(tanaman.kode_pohon,2) AS UNSIGNED) ASC")
+        ->select('penyakit.*')
+        ->paginate(20);
 
     return view('admin.penyakit.index', compact('penyakit'));
 }
+
 
     public function create()
     {
