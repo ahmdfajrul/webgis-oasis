@@ -5,21 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Tanaman;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TanamanController extends Controller
 {
     // Menampilkan semua tanaman
     public function index()
-{
-    // Ambil hanya field penting, eager load penyakit terbatas
-    $tanaman = Tanaman::select('id','kode_pohon','nama_pohon','status','latitude','longitude','foto_pohon')
-        ->with('penyakit:id,tanaman_id,nama_penyakit,foto_penyakit')
-        ->orderByRaw("SUBSTRING(kode_pohon,1,1), CAST(SUBSTRING(kode_pohon,2) AS UNSIGNED) ASC")
-        ->paginate(20); // 20 data per halaman
+    {
+        // Ambil hanya field penting, eager load penyakit terbatas
+        $tanaman = Tanaman::select('id','kode_pohon','nama_pohon','status','latitude','longitude','foto_pohon')
+            ->with('penyakit:id,tanaman_id,nama_penyakit,foto_penyakit')
+            ->orderByRaw("SUBSTRING(kode_pohon,1,1), CAST(SUBSTRING(kode_pohon,2) AS UNSIGNED) ASC")
+            ->paginate(20); // 20 data per halaman
 
-    return view('admin.tanaman.index', compact('tanaman'));
-}
-
+        return view('admin.tanaman.index', compact('tanaman'));
+    }
 
     // Form tambah tanaman
     public function create()
@@ -32,7 +32,12 @@ class TanamanController extends Controller
     {
         // Validasi input
         $request->validate([
-            'kode_pohon'   => ['required', 'string', 'max:50', 'unique:tanaman,kode_pohon'],
+            'kode_pohon'   => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('tanaman')->whereNull('deleted_at') // <-- revisi di sini
+            ],
             'nama_pohon'   => 'required|string|max:255',
             'nama_latin'   => 'nullable|string|max:255',
             'deskripsi'    => 'nullable|string',
@@ -80,8 +85,13 @@ class TanamanController extends Controller
         $tanaman = Tanaman::findOrFail($id);
 
         $validated = $request->validate([
-            'kode_pohon'   => ['sometimes','required','string','max:50', 
-                               'unique:tanaman,kode_pohon,'.$id],
+            'kode_pohon'   => [
+                'sometimes',
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('tanaman')->ignore($tanaman->id)->whereNull('deleted_at') // <-- revisi di sini
+            ],
             'nama_pohon'   => 'sometimes|required|string|max:255',
             'nama_latin'   => 'nullable|string|max:255',
             'deskripsi'    => 'nullable|string',
