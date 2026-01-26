@@ -6,7 +6,7 @@
     <div>
         <h4 class="fw-bold mb-1">Data Tanaman</h4>
         <small class="text-muted">
-            Total data: {{ $tanaman->total() }} pohon
+            Total data: {{ $tanaman->count() }} pohon
         </small>
     </div>
 
@@ -32,7 +32,7 @@
             <tbody>
             @foreach($tanaman as $i => $t)
                 <tr>
-                    <td>{{ $tanaman->firstItem() + $i }}</td>
+                    <td>{{ $i + 1 }}</td>
                     <td class="fw-semibold text-muted">{{ $t->kode_pohon }}</td>
                     <td class="fw-semibold">{{ $t->nama_pohon }}</td>
                     <td>
@@ -68,11 +68,6 @@
             @endforeach
             </tbody>
         </table>
-
-        <!-- Pagination -->
-        <div class="mt-3">
-            {{ $tanaman->links('pagination::bootstrap-5') }}
-        </div>
     </div>
 </div>
 

@@ -7,7 +7,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h4 class="fw-bold mb-1">Data Penyakit</h4>
-        <small class="text-muted">Total data: {{ $penyakit->total() }} penyakit</small>
+        <small class="text-muted">Total data: {{ $penyakit->count() }} penyakit</small>
     </div>
 
     <a href="{{ route('admin.penyakit.create') }}" class="btn btn-success shadow-sm">
@@ -33,7 +33,7 @@
             <tbody>
                 @foreach($penyakit as $i => $p)
                     <tr>
-                        <td>{{ $penyakit->firstItem() + $i }}</td>
+                        <td>{{ $i + 1 }}</td>
                         <td>{{ $p->tanaman->kode_pohon ?? '-' }}</td>
                         <td>{{ $p->tanaman->nama_pohon ?? '-' }}</td>
                         <td>{{ $p->nama_penyakit }}</td>
@@ -64,10 +64,6 @@
                 @endforeach
             </tbody>
         </table>
-
-        <div class="mt-3">
-            {{ $penyakit->links('pagination::bootstrap-5') }}
-        </div>
 
     </div>
 </div>

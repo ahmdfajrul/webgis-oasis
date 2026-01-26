@@ -22,7 +22,8 @@ class TanamanController extends Controller
                 'foto_pohon'
             )
             ->with('penyakit:id,tanaman_id,nama_penyakit,foto_penyakit')
-            ->orderByRaw("SUBSTRING(kode_pohon,1,1), CAST(SUBSTRING(kode_pohon,2) AS UNSIGNED) ASC");
+            ->orderByRaw("SUBSTRING(kode_pohon,1,1), CAST(SUBSTRING(kode_pohon,2) AS UNSIGNED) ASC")
+            ->get();
 
         return view('admin.tanaman.index', compact('tanaman'));
     }

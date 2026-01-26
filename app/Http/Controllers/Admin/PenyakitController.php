@@ -16,8 +16,7 @@ class PenyakitController extends Controller
         ->join('tanaman', 'penyakit.tanaman_id', '=', 'tanaman.id')
         ->orderByRaw("SUBSTRING(tanaman.kode_pohon,1,1), CAST(SUBSTRING(tanaman.kode_pohon,2) AS UNSIGNED) ASC")
         ->select('penyakit.*')
-        ->paginate(20);
-
+        ->get();
     return view('admin.penyakit.index', compact('penyakit'));
 }
 
