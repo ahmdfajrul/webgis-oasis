@@ -18,11 +18,17 @@ class DashboardController extends Controller
 
         $penyakitPerTanaman = Penyakit::with('tanaman')->get();
 
+        // Ambil semua data tanaman untuk map
+        $tanaman = Tanaman::select('id','nama_pohon','latitude','longitude','status')->get();
+
         return view('admin.dashboard', compact(
             'totalTanaman',
             'totalPenyakit',
             'tanamanPerJenis',
-            'penyakitPerTanaman'
+            'penyakitPerTanaman',
+            'tanaman' // kirim ke view
         ));
     }
+    
 }
+

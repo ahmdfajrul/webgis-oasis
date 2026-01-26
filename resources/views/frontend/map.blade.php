@@ -55,7 +55,6 @@ html, body {
     border-radius: 9999px;
     font-weight: 600;
     text-decoration: none;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
 }
 
 .floating-home:hover {
@@ -104,13 +103,16 @@ const tanamanData = @json($tanaman ?? []);
 
 window.addEventListener('load', () => {
 
+    // hapus loading
     document.querySelector('.loading')?.remove();
 
+    // inisialisasi map
     const map = L.map('map', {
         zoomControl: true,
         preferCanvas: true
     }).setView([-6.780535, 110.859251], 15);
 
+    // layer satelit
     const satellite = L.tileLayer(
         'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             maxZoom: 19,
@@ -119,6 +121,7 @@ window.addEventListener('load', () => {
         }
     );
 
+    // layer OSM
     const osm = L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -133,6 +136,7 @@ window.addEventListener('load', () => {
         "Peta Jalan": osm
     }, {}, { position: 'topright' }).addTo(map);
 
+    // cluster marker
     const markers = L.markerClusterGroup({
         disableClusteringAtZoom: 18,
         maxClusterRadius: 30,
@@ -140,6 +144,7 @@ window.addEventListener('load', () => {
         spiderfyOnMaxZoom: false
     });
 
+    // icon marker
     const icons = {
         sehat: L.icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -167,11 +172,13 @@ window.addEventListener('load', () => {
         })
     };
 
+    // tambahkan marker
     tanamanData.forEach((t, i) => {
         let lat = parseFloat(t.latitude);
         let lng = parseFloat(t.longitude);
         if (isNaN(lat) || isNaN(lng)) return;
 
+        // offset supaya marker tidak tumpang tindih
         lat += i * 0.000005;
         lng += i * 0.000006;
 
@@ -182,25 +189,20 @@ window.addEventListener('load', () => {
 
         const marker = L.marker([lat, lng], { icon: icons[key] });
 
+        // popup menampilkan kode pohon, nama pohon, status, foto, tombol
         marker.bindPopup(`
             <div style="width:260px;text-align:center">
-                <h4 style="margin-bottom:8px">${t.nama_pohon ?? 'Tanaman'}</h4>
-                <span style="display:inline-block;margin-bottom:10px;
-                      padding:6px 14px;border-radius:9999px;
+                <h4 style="margin-bottom:6px">${t.nama_pohon ?? 'Tanaman'}</h4>
+                <p style="margin:0;font-weight:600;">Kode Pohon: ${t.kode_pohon ?? '-'}</p>
+                <span style="display:inline-block;margin:6px 0 10px;padding:6px 14px;border-radius:9999px;
                       background:${key==='sehat'?'#15803d':key==='perhatian'?'#f39c12':'#e74c3c'};
                       color:white;font-weight:600">
-                    ${t.status ?? 'Tidak diketahui'}
+                      ${t.status ?? 'Tidak diketahui'}
                 </span>
 
-                ${t.foto_pohon ? `
-                    <img src="/images/${t.foto_pohon}"
-                         style="width:100%;border-radius:10px;margin-bottom:12px">
-                ` : '<p>Foto belum tersedia</p>'}
+                ${t.foto_pohon ? `<img src="/images/${t.foto_pohon}" style="width:100%;border-radius:10px;margin-bottom:10px">` : '<p>Foto belum tersedia</p>'}
 
-                <a href="/tanaman/${t.id}"
-                   style="display:inline-block;padding:8px 18px;
-                          background:#15803d;color:white;
-                          border-radius:9999px;text-decoration:none">
+                <a href="/tanaman/${t.id}" style="display:inline-block;padding:8px 18px;background:#15803d;color:white;border-radius:9999px;text-decoration:none">
                    Lihat Detail
                 </a>
             </div>
@@ -211,7 +213,7 @@ window.addEventListener('load', () => {
 
     map.addLayer(markers);
 
-    /* === FIX BUG MAP KLIK BARU NORMAL === */
+    // fix bug map
     requestAnimationFrame(() => map.invalidateSize());
     setTimeout(() => map.invalidateSize(), 300);
 

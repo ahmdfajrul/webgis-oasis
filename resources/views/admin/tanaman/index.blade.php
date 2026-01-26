@@ -76,7 +76,7 @@
     </div>
 </div>
 
-<!-- Modal Foto Global -->
+<!-- Modal Foto -->
 <div class="modal fade" id="modalFoto">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -107,7 +107,7 @@ $(document).ready(function () {
         columnDefs: [{ orderable: false, targets: [5,6] }] // foto & aksi tidak bisa sort
     });
 
-    // Modal Foto Global
+    // Modal Foto
     $('.foto-btn').click(function(){
         let foto = $(this).data('foto');
         $('#fotoPreview').attr('src', foto);

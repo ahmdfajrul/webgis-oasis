@@ -69,3 +69,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 Route::get('/dashboard', function () {
     return redirect()->route('admin.dashboard');
 })->name('dashboard');
+
+Route::get('/admin/map', [DashboardController::class,'mapAdmin'])->name('admin.map');
+
+Route::post('/admin/tanaman/{id}/update-location', [TanamanController::class,'updateLocation'])->name('admin.tanaman.update-location');

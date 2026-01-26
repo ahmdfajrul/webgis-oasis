@@ -9,7 +9,7 @@ class MapController extends Controller
 {
     public function index()
     {
-        $tanaman = Tanaman::select('id', 'nama_pohon', 'latitude', 'longitude', 'status', 'foto_pohon')->get();
+        $tanaman = Tanaman::select('id', 'kode_pohon', 'nama_pohon', 'latitude', 'longitude', 'status', 'foto_pohon')->get();
         return view('frontend.map', compact('tanaman'));
     }
 
